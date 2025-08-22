@@ -1,0 +1,38 @@
+// ==UserScript==
+// @name         禁用离开页面确认
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  阻止网页离开时的确认对话框
+// @author       You
+// @match        *://*/*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    
+    // 重写window.onbeforeunload
+    window.onbeforeunload = null;
+    
+    // 移除所有beforeunload事件监听器
+    const originalAddEventListener = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+        if (type === 'beforeunload') {
+            console.log('阻止了beforeunload事件监听器的添加');
+            return;
+        }
+        originalAddEventListener.call(window, type, listener, options);
+    };
+
+    // 重写window.onbeforeunload的setter
+    Object.defineProperty(window, 'onbeforeunload', {
+        set: function(value) {
+            console.log('阻止了onbeforeunload的设置');
+        },
+        get: function() {
+            return null;
+        },
+        configurable: true
+    });
+})();
