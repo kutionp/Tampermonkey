@@ -1,1 +1,1 @@
-在篡改猴里离线使用的JavaScript脚本
+在Tampermonkey（篡改猴）里离线使用的JavaScript脚本
